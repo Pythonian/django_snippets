@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Your bookmarks{% endblock %}
+
+{% block content %}
+
+<h3>Your bookmarks</h3>
+{% if bookmarks %}
+<ul>
+    {% for bookmark in bookmarks %}
+    <li><a href="{{ bookmark.snippet.get_absolute_url }}">{{ bookmark.snippet.title }}</a> (<a
+            href="{{ bookmark.snippet.language.get_absolute_url }}">{{ bookmark.snippet.language.name }}</a>) by <a
+            href="{# url 'snippets:author' username=bookmark.snippet.author.username #}">{{ bookmark.snippet.author.username }}</a>
+        (bookmarked {{ bookmark.date|timesince }} ago) <a
+            href="{% url 'bookmarks:delete' snippet_id=bookmark.snippet.id %}">Delete this bookmark</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>You haven't bookmarked any snippets yet.</p>
+{% endif %}
+
+<p><a href="{% url 'popular:bookmarked' %}">View Most Bookmarked</a></p>
+
+<p>To bookmark a snippet, just click the "add this snippet to your bookmarks" link on its page.</p>
+<p>The snippets other users have bookmarked most often are:</p>
+<p>Add the top 5 bookmarks here</p>
+
+{% endblock %}

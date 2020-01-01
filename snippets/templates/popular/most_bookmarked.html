@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Most bookmarked snippets{% endblock %}
+
+{% block content %}
+
+<h3>Most bookmarked snippets</h3>
+
+<ul>
+    {% for bookmark in bookmarks %}
+    <li>
+        <a href="{{ bookmark.get_absolute_url }}">{{ bookmark.title }}</a> by <a
+            href="{# url 'snippets:author' username=bookmark.author.username #}">{{ bookmark.author.username }}</a>
+        <p>{{ bookmark.pub_date|timesince }} ago</p>
+    </li>
+    {% endfor %}
+</ul>
+
+<p>You're looking at the most bookmarked snippets on the site; {% if request.user.is_authenticated %}you can help useful
+    snippets show up here by clicking the "bookmark this snippet" link on their pages and ading them to <a
+        href="{% url 'bookmarks:user' %}">your bookmarks</a>{% else %}if you'd like to help useful snippets show
+    up
+    here, <a href="{# url 'accounts:signup' #}">sign up for an account</a> and you'll get your own bookmarks
+    list{% endif %}.
+</p>
+
+{% endblock %}

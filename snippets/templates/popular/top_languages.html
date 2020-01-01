@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Top languages{% endblock %}
+
+{% block content %}
+
+<h1>Top languages</h1>
+
+<ul>
+    {% for language in top_languages %}
+    <li><a href="{{ language.get_absolute_url }}">{{ language.name }}</a></li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'languages:list' %}">All Languages</a></p>
+{% endblock %}

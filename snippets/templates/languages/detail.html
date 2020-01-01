@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}All snippets written in {{ language.name }}{% endblock %}
+
+{% block content %}
+
+<h1>All snippets written in {{ language.name }} ({{ language.snippet_set.count }})</h1>
+
+<ul>
+    {% for snippet in language.snippet_set.all %}
+    <li>
+        <a href="{{ snippet.get_absolute_url }}">{{ snippet.title }}</a> by <a
+            href="{# url 'snippets:author' username=snippet.author.username #}">{{ snippet.author.username }}</a>
+        <p>{{ snippet.pub_date|timesince }} ago</p>
+    </li>
+    {% empty %}
+    <p>No snippet written for this language yet.</p>
+    {% endfor %}
+</ul>
+
+<p><a rel="alternate" href="{% url 'feeds:language' slug=language.slug %}" type="application/atom+xml">Feed of snippets
+        written in {{ language.name }}</a></p>
+<p><a href="{% url 'languages:list' %}">All Languages</a></p>
+<p><a href="{% url 'popular:languages' %}">Top Languages</a></p>
+
+{% endblock %}

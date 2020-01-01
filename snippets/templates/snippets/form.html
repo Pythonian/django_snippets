@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{% if add %}Add a{% else %}Edit your{% endif %} snippet{% endblock %}
+
+{% block content %}
+
+<h1>{% if add %}Add a{% else %}Edit your{% endif %} snippet</h1>
+
+<p>Use the form below to {% if add %}add{% else %}edit {% endif %} your snippet; all fields are required</p>
+
+<p>All fields are required; tags should be separated with spaces, and you can use Markdown in the description for your
+    snippet, but <strong>raw HTML will be removed</strong>.</p>
+
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="{% if add %}Save{% else %}Update{% endif %}">
+</form>
+
+{% endblock %}

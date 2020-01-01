@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load snippets %}
+
+{% block title %}{{ snippet.title }}{% endblock %}
+
+{% block content %}
+
+<h3>{{ snippet.title }}</h3>
+
+{{ snippet.highlighted_code|safe }}
+
+{{ snippet.description_html|safe }}
+
+<!-- Can we have related code snippets? -->
+
+<dl>
+    <dt>Author:</dt>
+    <dd><a href="{# url 'snippets:author' username=snippet.author.username #}">{{ snippet.author.username }}</a></dd>
+    <dt>Posted:</dt>
+    <dd>{{ snippet.pub_date|date:"F j, Y" }}</dd>
+    <dt>Language:</dt>
+    <dd><a href="{{ snippet.language.get_absolute_url }}">{{ snippet.language.name }}</a></dd>
+    <!-- Can we have the version of software a snippet is compatible with? Eg. Django>2.0, Python3.4+ etc-->
+    <!-- TODO: Tags -->
+    <dt>Score:</dt>
+    <dd>{{ snippet.get_score }} (after {{ snippet.rating_set.count }} ratings)</dd>
+</dl>
+
+<h3>Tools</h3>
+<ul>
+    {% if request.user.is_authenticated %}
+
+    {% ifequal request.user.id snippet.author.id %}
+    <li><a href="{% url 'snippets:edit' snippet_id=snippet.id %}">Edit this snippet</a></li>
+    {% endifequal %}
+
+    {% if_bookmarked request.user snippet %}
+    <li>This snippet is in <a href="{% url 'bookmarks:user' %}">your bookmarks</a> | <a
+            href="{% url 'bookmarks:delete' snippet_id=snippet.id %}">Remove</a></li>
+    {% else %}
+    <li><a href="{% url 'bookmarks:add' snippet_id=snippet.id %}">Bookmark this snippet</a></li>
+    {% endif_bookmarked %}
+
+    {% if_rated request.user snippet %}
+    {% get_rating request.user snippet as rating %}
+    <li>You rated this snippet <strong>{{ rating.get_rating_display }}</strong>.</li>
+    {% else %}
+    <li>Rate this snippet:
+        <a href="{% url 'snippets:rate' snippet_id=snippet.id %}?rating=1">useful</a> or
+        <a href="{% url 'snippets:rate' snippet_id=snippet.id %}?rating=-1">not useful</a>.
+    </li>
+    {% endif_rated %}
+
+    {% endif %}
+
+    <li><a href="{% url 'snippets:download' snippet_id=snippet.id %}" type="{{ snippet.language.mime_type }}">Download
+            this snippet</a></li>
+    <li><a href="{% url 'snippets:raw' snippet_id=snippet.id %}">This snippet as plain text</a></li>
+    <li><a href="{% url 'snippets:add' %}">Add new snippet</a></li>
+    <li><a href="{% url 'snippets:list' %}">All Snippets</a></li>
+
+    {% endblock %}
