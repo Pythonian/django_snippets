@@ -36,5 +36,4 @@ urlpatterns = [
     path('<int:snippet_id>/rate/',
          snippets.snippet_rate,
          name='rate'),
-
 ]

@@ -109,7 +109,7 @@ class Snippet(models.Model):
 
     def get_score(self):
         """
-        Calculate a snippet’s total score by summing all ratings attached to it
+        Calculate a snippet's total score by summing all ratings attached to it
         """
         return self.rating_set.aggregate(Sum('rating'))
 

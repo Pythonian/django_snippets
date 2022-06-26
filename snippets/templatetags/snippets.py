@@ -1,6 +1,6 @@
 from django import template
 
-from ..models import Bookmark, Rating, SnippetFlag
+from snippets.models import Bookmark, Rating, SnippetFlag
 
 register = template.Library()
 

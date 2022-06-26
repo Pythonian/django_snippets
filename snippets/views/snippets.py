@@ -11,9 +11,17 @@ from snippets.models import Rating, Snippet, SnippetFlag
 
 
 def snippet_list(request):
+    """
+    Returns a snippet list page.
+
+    Template: ``snippets/snippet_list.html``
+    Context:
+        snippet_list
+            Snippet object list
+    """
     snippet_list = Snippet.objects.all()
 
-    template_name = 'snippets/list.html'
+    template_name = 'snippets/snippet_list.html'
     context = {'snippet_list': snippet_list}
 
     return render(request, template_name, context)
@@ -46,6 +54,16 @@ def snippet_raw(request, snippet_id):
 
 @login_required
 def snippet_add(request):
+    """
+    Returns a form page to create snippet.
+
+    Templates: ``snippets/snippet_form.html``
+    Context:
+        form
+            SnippetForm object
+        add
+            Boolean flag
+    """
     if request.method == 'POST':
         form = SnippetForm(data=request.POST)
         if form.is_valid():
@@ -58,7 +76,7 @@ def snippet_add(request):
     else:
         form = SnippetForm()
 
-    template_name = 'snippets/form.html'
+    template_name = 'snippets/snippet_form.html'
     context = {'form': form, 'add': True}
 
     return render(request, template_name, context)
@@ -79,7 +97,7 @@ def snippet_edit(request, snippet_id):
     else:
         form = SnippetForm(instance=snippet)
 
-    template_name = 'snippets/form.html'
+    template_name = 'snippets/snippet_form.html'
     context = {'form': form, 'add': False}
 
     return render(request, template_name, context)
