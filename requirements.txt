@@ -4,5 +4,5 @@ Django==4.0.6
 importlib-metadata==4.12.0
 Markdown==3.3.7
 Pygments==2.12.0
-sqlparse==0.4.2
+sqlparse==0.4.4
 zipp==3.8.1
